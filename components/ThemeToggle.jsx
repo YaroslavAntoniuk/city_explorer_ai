@@ -8,7 +8,7 @@ const themes = {
 };
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState(themes.luxury);
+  const [theme, setTheme] = useState(themes.lofi);
 
   const toggleTheme = () => {
     const newTheme = theme === themes.luxury ? themes.lofi : themes.luxury;
