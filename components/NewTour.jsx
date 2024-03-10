@@ -15,7 +15,9 @@ const NewTour = () => {
       if (newTour) {
         return newTour;
       }
-      toast.error('No matching city or country found. Please try again.');
+      toast.error(
+        'No matching city in this country found. Please try another city or country.',
+      );
       return null;
     },
   });
