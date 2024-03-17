@@ -65,7 +65,27 @@ export const generateTourResponse = async ({ city, country }) => {
 };
 
 export const createNewTour = async (tour) => {
-  return prisma.tour.create({
-    data: tour,
-  });
+  const { stops, ...tourData } = tour;
+
+  try {
+    const createdTour = await prisma.tour.create({
+      data: tourData,
+    });
+
+    const stopsData = stops.map((stop) => ({
+      name: stop.name,
+      description: stop.description,
+      location: stop.location,
+      tourId: createdTour.id, // Associate stop with the created tour
+    }));
+
+    await prisma.stop.createMany({
+      data: stopsData,
+    });
+
+    return createdTour;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
