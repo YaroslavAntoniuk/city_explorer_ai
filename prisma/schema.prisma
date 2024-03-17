@@ -25,7 +25,7 @@ model Tour {
 
 model Stop {
   id          String @id @default(uuid())
-  name        String
+  name        String @unique
   description String @db.Text
   location    String
   tour        Tour   @relation(fields: [tourId], references: [id])
