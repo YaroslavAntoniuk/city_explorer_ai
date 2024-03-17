@@ -37,6 +37,9 @@ export const getExistingTour = async ({ city, country }) => {
         country,
       },
     },
+    include: {
+      stops: true,
+    },
   });
 };
 
@@ -88,4 +91,38 @@ export const createNewTour = async (tour) => {
     console.error(error);
     return null;
   }
+};
+
+export const getAllTours = async (searchTerm = '') => {
+  return prisma.tour.findMany({
+    where: {
+      OR: [
+        {
+          city: {
+            contains: searchTerm,
+          },
+        },
+        {
+          country: {
+            contains: searchTerm,
+          },
+        },
+        {
+          stops: {
+            some: {
+              name: {
+                contains: searchTerm,
+              },
+            },
+          },
+        },
+      ],
+    },
+    include: {
+      stops: true,
+    },
+    orderBy: {
+      city: 'asc',
+    },
+  });
 };
